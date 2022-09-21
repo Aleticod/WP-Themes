@@ -6,7 +6,8 @@ function plz_assets() {
 
     wp_register_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css', array(), false, 'all');
     
-    wp_enqueue_style('estilos', get_template_directory_uri() . '/assets/css/style.css', array('google', 'bootstrap'), false, 'all');
+    //wp_enqueue_style('estilos', get_template_directory_uri() . '/assets/css/style.css', array('google', 'bootstrap'), false, 'all');
+    wp_enqueue_style('estilos', get_stylesheet_directory_uri() . '/assets/css/style.css', array('google', 'bootstrap'), false, 'all');
 
     wp_enqueue_script('yardsale-js', get_template_directory_uri() . '/assets/js/script.js', array(), false, true);
 
@@ -97,7 +98,7 @@ function plz_custom_post_type() {
     ));
 }
 
-add_action('init', 'plz_custom_post_type');
+//add_action('init', 'plz_custom_post_type');
 
 function plz_add_to_signin_menu() {
     $current_user = wp_get_current_user();
@@ -106,3 +107,38 @@ function plz_add_to_signin_menu() {
 }
 
 add_action('plz_signin', 'plz_add_to_signin_menu');
+//add_action('plz_signin', 'storefront_header_container_close');
+//add_action('plz_signin', 'storefront_primary_navigation_wrapper');
+//add_action('plz_signin', 'storefront_product_search');
+
+remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+
+function plz_add_to_cart() {
+    global $product;
+    ?>
+    <a href="<?= $product->add_to_cart_url() ?>" class="productos__add-to-cart">
+        <img src="<?= get_stylesheet_directory_uri() ?>/assets/img/add-to-cart.svg" alt="carrito">
+    </a>
+    <?php
+}
+
+add_action('woocommerce_after_shop_loop_item', 'plz_add_to_cart', 10);
+
+function plz_ws_share() {
+    global $product;
+    ?>
+    <div class="productos__share">
+        <a class="icons-consult" href="https://www.facebook.com/sharer/sharer.php?u=<?= get_permalink($product->get_id()) ?>" target="_blank">
+            <img src="<?= get_stylesheet_directory_uri() ?>/assets/img/facebook.svg" alt="facebook">
+        </a>
+        <a class="icons-consult" href="https://twitter.com/intent/tweet?text=<?= get_permalink($product->get_id()) ?>" target="_blank">
+            <img src="<?= get_stylesheet_directory_uri() ?>/assets/img/twitter.svg" alt="twitter">
+        </a>
+        <a class="icons-consult" href="https://wa.me/989273430?text=Quisiera%20sobre%20sobre%20este%20producto: <?= get_permalink($product->get_id()) ?>" target="_blank">
+            <img src="<?= get_stylesheet_directory_uri() ?>/assets/img/whatsapp.svg" alt="whatsapp">
+        </a>
+    </div>
+    <?php
+}
+
+add_action('woocommerce_after_shop_loop_item', 'plz_ws_share', 11);

@@ -1,5 +1,6 @@
 /*
-Theme Name: Yard Sales
+Theme Name: Yard Sales Storefront child theme
+Template: storefront
 Theme URI: https://github.com/Aleticode/yardsales
 Author: AletiCode
 Author URI: https://github.com/Aleticode
@@ -15,3 +16,8 @@ Text Domain: twentytwenty
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
+
+.icons-consult img {
+    width: 28px;
+    border-radius: 0px;
+}
